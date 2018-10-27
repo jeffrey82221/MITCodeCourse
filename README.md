@@ -64,6 +64,15 @@ For Problem Set 4:
 - 27: Little Languages II (http://web.mit.edu/6.031/www/sp18/classes/27-little-languages-2/)
 - 28: Team Version Control (http://web.mit.edu/6.031/www/sp18/classes/28-team-version-control/)
 
+# Note:  
+How to push a tag for alpha or beta version of code release? 
+`
+git tag -a ps0-alpha -m 'problem set alpha version'
+git push origin --tags 
+`
+
+
+
 
 
 
