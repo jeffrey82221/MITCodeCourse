@@ -6,7 +6,7 @@ This project contain the assignment implementation of MIT OCW course: MIT6.031 (
 
 Each folder contains a problem set from the course, as shown below: 
 
-Problem Sets (These are personal programming projects)
+## Problem Sets (These are personal programming projects)
 
 
 - 0: Turtle Graphics (https://ocw.mit.edu/ans7870/6/6.005/s16/psets/ps0/)
@@ -18,9 +18,9 @@ Problem Sets (These are personal programming projects)
 -  Team based project: ABC Music Player(https://ocw.mit.edu/ans7870/6/6.005/s16/projects/abcplayer/) 
 
 
-Interesting coders can check the belowing list for Reading material: 
+## Interesting coders can check the belowing list for Reading material: 
 
-For Problem Set 0: 
+### For Problem Set 0: 
 
 - 01: Static Checking (http://web.mit.edu/6.031/www/sp18/classes/01-static-checking/)
 - 02: Basic Java (http://web.mit.edu/6.031/www/sp18/classes/02-basic-java/)
@@ -30,7 +30,7 @@ For Problem Set 0:
 - 06: Specifications (http://web.mit.edu/6.031/www/sp18/classes/06-specifications/)
 
 
-For Problem Set 1: 
+### For Problem Set 1: 
 
 - 07: Designing Specifications (http://web.mit.edu/6.031/www/sp18/classes/07-designing-specs/)
 - 08: Mutability & Immutability (http://web.mit.edu/6.031/www/sp18/classes/08-immutability/)
@@ -39,7 +39,7 @@ For Problem Set 1:
 - 11: Abstraction Functions & Rep Invariants (http://web.mit.edu/6.031/www/sp18/classes/11-abstraction-functions-rep-invariants/)
 - 12: Interfaces & Enumerations (http://web.mit.edu/6.031/www/sp18/classes/12-interfaces-enums/)
 
-For Problem Set 2: 
+### For Problem Set 2: 
 
 - 13: Debugging (http://web.mit.edu/6.031/www/sp18/classes/13-debugging/)
 - 14: Recursion (http://web.mit.edu/6.031/www/sp18/classes/14-recursion/)
@@ -48,7 +48,7 @@ For Problem Set 2:
 - 17: Regular Expressions & Grammars (http://web.mit.edu/6.031/www/sp18/classes/17-regex-grammars/)
 - 18: Parsers (http://web.mit.edu/6.031/www/sp18/classes/18-parsers/) 
 
-For Problem Set 3: 
+### For Problem Set 3: 
 
 - 19: Concurrency (http://web.mit.edu/6.031/www/sp18/classes/19-concurrency/)
 - 20: Thread Safety (http://web.mit.edu/6.031/www/sp18/classes/20-thread-safety/)
@@ -57,7 +57,7 @@ For Problem Set 3:
 - 23: Sockets & Networking (http://web.mit.edu/6.031/www/sp18/classes/23-sockets-networking/)
 - 24: Callbacks (http://web.mit.edu/6.031/www/sp18/classes/24-callbacks/)
 
-For Problem Set 4: 
+### For Problem Set 4: 
 
 - 25: Map, Filter, Reduce (http://web.mit.edu/6.031/www/sp18/classes/25-map-filter-reduce/)
 - 26: Little Languages I (http://web.mit.edu/6.031/www/sp18/classes/26-little-languages-1/)
@@ -65,7 +65,7 @@ For Problem Set 4:
 - 28: Team Version Control (http://web.mit.edu/6.031/www/sp18/classes/28-team-version-control/)
 
 # Note:  
-How to push a tag for alpha or beta version of code release? 
+## How to push a tag for alpha or beta version of code release? 
 
 `
 git tag -a ps0-alpha -m 'problem set alpha version'
@@ -75,7 +75,7 @@ git tag -a ps0-alpha -m 'problem set alpha version'
 git push --tags 
 `
 
-How to manage branches for new problem set ? 
+## How to manage branches for new problem set ? 
 
 `
 git checkout master      
