@@ -79,16 +79,24 @@ How to manage branches for new problem set ?
 `
 git checkout master        
 // go back to the master branch. 
+
 git checkout --orphan ps1  
 // create a branch, namely "ps[n]", for problem set n.  
+
 rm .git/index              
 // remove previous git history from this branch to make it independent of the master branch 
+
 rm -r *                    
 // clean up this branch by removing all files. 
+
 // Then, do: download ps1 project file from course webside  
 // Finally, finish the add-commit-push cycle as below: 
+
 git add .
+
 git commit -m "problem set 1 initialized" 
+
 git push --set-upstream origin ps1
+
 `
 
