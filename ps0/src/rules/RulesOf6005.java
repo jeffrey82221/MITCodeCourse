@@ -11,7 +11,6 @@ package rules;
  */
 public class RulesOf6005 {
      
-    //private static final boolean  = false;
 
     /**
      * Judge whether a given piece of code may be used in an assignment (problem
@@ -39,22 +38,17 @@ public class RulesOf6005 {
     public static boolean mayUseCodeInAssignment(boolean writtenByYourself,
             boolean availableToOthers, boolean writtenAsCourseWork,
             boolean citingYourSource, boolean implementationRequired) {
-        
-        // TODO: Fill in this method, then remove the exception
         if(writtenByYourself && implementationRequired){
             return true;
         }else if(!writtenByYourself && implementationRequired){
-            if(availableToOthers&&citingYourSource) {
-                return true;
-            }else if(writtenAsCourseWork && citingYourSource){
-                return true;
-            }else {
-                return false;
-            }
+    		if (citingYourSource) {
+    			return true;
+    		}else {
+    			return false;
+    		}
         }else {
             return false;
         }
-        //throw new RuntimeException("implement me!");
     }
     
     /**

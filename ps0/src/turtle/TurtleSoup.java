@@ -4,24 +4,24 @@
 package turtle;
 
 import java.util.List;
-
 import rules.RulesOf6005;
-
 import java.util.ArrayList;
+import java.lang.Math;
+
 
 public class TurtleSoup {
 
     /**
      * Draw a square.
-     * 
      * @param turtle the turtle context
      * @param sideLength length of each side
      */
     public static void drawSquare(Turtle turtle, int sideLength) {
-        //throw new RuntimeException("implement me!");
-        for(int i=0;i<4;i++) {
+    	final int sideNumberOfSquare = 4;
+    	final int angleOfSquare = 90; 
+        for(int i=0;i<sideNumberOfSquare;i++) { 
             turtle.forward(sideLength);
-            turtle.turn(90);
+            turtle.turn(angleOfSquare);
         }
     }
 
@@ -35,7 +35,6 @@ public class TurtleSoup {
      * @return angle in degrees, where 0 <= angle < 360
      */
     public static double calculateRegularPolygonAngle(int sides) {
-        //throw new RuntimeException("implement me!");
         return 180.-360./((double) sides);
     }
 
@@ -50,8 +49,7 @@ public class TurtleSoup {
      * @return the integer number of sides
      */
     public static int calculatePolygonSidesFromAngle(double angle) {
-        //throw new RuntimeException("implement me!");
-        return java.lang.Math.round((float) (360./(180. - angle)));
+        return Math.round((float) (360./(180. - angle)));
     }
 
     /**
@@ -64,10 +62,9 @@ public class TurtleSoup {
      * @param sideLength length of each side
      */
     public static void drawRegularPolygon(Turtle turtle, int sides, int sideLength) {
-        //throw new RuntimeException("implement me!");
         for(int i = 0;i<sides;i++) {
             turtle.forward(sideLength); 
-            turtle.turn(180.-calculateRegularPolygonAngle(sides));
+            turtle.turn(180.-calculateRegularPolygonAngle(sides)); // from interior angle to exterior angle  
         }
     }
 
@@ -93,11 +90,11 @@ public class TurtleSoup {
     public static double calculateHeadingToPoint(double currentHeading, int currentX, int currentY,
                                                  int targetX, int targetY) {
 
-        //throw new RuntimeException("implement me!");
-        //System.out.println((double) (targetY-currentY)/ (double)(targetX-currentX));
         double dY = targetY-currentY;
         double dX = targetX-currentX;
-        double angle = 0. ; 
+        double angle = 0.; 
+        // because the range of Math.atan is from -Pi/2 to Pi/2, we need below if else 
+        // code to fix the angle range. 
         if(dX>=0) {
             if(dY>=0) {
                 angle = Math.atan((double) (dY) /(double) (dX))*180/Math.PI;
@@ -115,7 +112,6 @@ public class TurtleSoup {
         angle = angle - 90; // starting from y-axis instead of starting from x-axis 
         angle = - angle; // from counter clock-wise to clock-wise  
         if(angle<0) angle = angle + 360; 
-        //System.out.println(angle);
         double result_angle = angle-currentHeading; 
         if(result_angle<0) result_angle = result_angle + 360;
         return result_angle;
@@ -191,11 +187,8 @@ public class TurtleSoup {
      */
     public static void main(String args[]) {
         DrawableTurtle turtle = new DrawableTurtle();
-
         //drawSquare(turtle, 40);
-
         //drawRegularPolygon(turtle,5, 50);
-        
         drawPersonalArt(turtle);
         turtle.draw();
     }
