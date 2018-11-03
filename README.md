@@ -64,7 +64,7 @@ Each folder contains a problem set from the course, as shown below:
 - 27: Little Languages II (http://web.mit.edu/6.031/www/sp18/classes/27-little-languages-2/)
 - 28: Team Version Control (http://web.mit.edu/6.031/www/sp18/classes/28-team-version-control/)
 
-# Note:  
+# Notes:  
 ## How to push a tag for alpha or beta version of code release? 
 
 `
