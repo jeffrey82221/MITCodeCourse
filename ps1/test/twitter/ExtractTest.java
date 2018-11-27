@@ -61,17 +61,23 @@ public class ExtractTest {
         assertEquals("expected end", d2, timespan.getEnd());
         // tweets.length() == 3: 
         timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2, tweet3));
-        assertTrue(d1==timespan.getStart()&&d3==timespan.getEnd());
+        assertEquals("expected start", d1, timespan.getStart());
+        assertEquals("expected end", d3, timespan.getEnd());
         timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet3,tweet2));
-        assertTrue(d1==timespan.getStart()&&d3==timespan.getEnd());
+        assertEquals("expected start", d1, timespan.getStart());
+        assertEquals("expected end", d3, timespan.getEnd());
         timespan = Extract.getTimespan(Arrays.asList(tweet2, tweet1,tweet3));
-        assertTrue(d1==timespan.getStart()&&d3==timespan.getEnd());
+        assertEquals("expected start", d1, timespan.getStart());
+        assertEquals("expected end", d3, timespan.getEnd());
         timespan = Extract.getTimespan(Arrays.asList(tweet2, tweet3,tweet1));
-        assertTrue(d1==timespan.getStart()&&d3==timespan.getEnd());
+        assertEquals("expected start", d1, timespan.getStart());
+        assertEquals("expected end", d3, timespan.getEnd());
         timespan = Extract.getTimespan(Arrays.asList(tweet3, tweet1,tweet2));
-        assertTrue(d1==timespan.getStart()&&d3==timespan.getEnd());
+        assertEquals("expected start", d1, timespan.getStart());
+        assertEquals("expected end", d3, timespan.getEnd());
         timespan = Extract.getTimespan(Arrays.asList(tweet3, tweet2,tweet1));
-        assertTrue(d1==timespan.getStart()&&d3==timespan.getEnd());
+        assertEquals("expected start", d1, timespan.getStart());
+        assertEquals("expected end", d3, timespan.getEnd());
     }
     
     @Test
