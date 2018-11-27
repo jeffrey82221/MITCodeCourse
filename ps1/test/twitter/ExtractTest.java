@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Set;
-import java.util.HashSet;
+import java.util.TreeSet;
 import org.junit.Test;
 
 public class ExtractTest {
@@ -72,25 +72,25 @@ public class ExtractTest {
         assertTrue(d1==timespan.getStart()&&d3==timespan.getEnd());
         timespan = Extract.getTimespan(Arrays.asList(tweet3, tweet2,tweet1));
         assertTrue(d1==timespan.getStart()&&d3==timespan.getEnd());
-        
     }
     
     @Test
     public void testGetMentionedUsersNoMention() {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
-        
         assertTrue("expected empty set", mentionedUsers.isEmpty());
     }
     
-    @Test 
     /* Testing strategy
      * 
      * Partition the inputs as follows:
      * 1) total mentioned user = (or <) the sum of mentioned users number of each tweets
      * 2) tweet.text with 0 or >0 mentioned users
-     * 3) tweets.length() = 1, >1  
-     *  
+     * 3) tweets.length() = 1, >1
+     * 4) Multiple usernames with different case type (upper or lower), or not.  
+     * 5) The @ is preceded with a valid username character, e.g.,"jeffrey@gmail.com", or not.
+     * 6) Test case with text start and end with username.
      */
+    @Test 
     public void testGetMentionedUsers() {
     	/*
     	 * 1-1) total mentioned user = the sum of mentioned users numbers of each tweet
@@ -104,24 +104,40 @@ public class ExtractTest {
     	// 2-2): tweet.text with >0 mentioned users.  3-1):  tweets.length() = 1. 
     	Tweet tweet1_with_mentioned_user =  new Tweet(1, "alyssa", "is it reasonable @alyssa to talk about rivest so much?", d1);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1_with_mentioned_user));
-    	Set<String> expected_result = new HashSet<>();
+    	Set<String> expected_result = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
     	expected_result.add("@alyssa"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
     	// 2-2): tweet.text with >0 mentioned users.  3-2):  tweets.length() > 1
     	Tweet tweet2_with_mentioned_user =  new Tweet(2, "bbitdiddle", "rivest @bbitdiddle talk in 30 minutes #hype", d2);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1_with_mentioned_user,tweet2_with_mentioned_user));
-    	expected_result = new HashSet<>();
+    	expected_result = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
     	expected_result.add("@alyssa");expected_result.add("@bbitdiddle"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
     	/*
     	 * 1-2) total mentioned user < the sum of mentioned users numbers of each tweet
     	 */
     	// Here, we use one unit user mentioned name only but with the sum of mentioned users numbers of each tweet = 2
-    	// This setting is same as the above case with tweet.text with >0 mentioned users, and tweets.length() > 1. 
+    	// This setting is same as the above case with tweet.text with >0 mentioned users, and tweets.length() > 1.
     	tweet2_with_mentioned_user =  new Tweet(2, "bbitdiddle", "rivest @alyssa talk in 30 minutes #hype", d2);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1_with_mentioned_user,tweet2_with_mentioned_user));
-    	expected_result = new HashSet<>();
+    	expected_result = new TreeSet<>();
     	expected_result.add("@alyssa"); 
+    	assertEquals("expected set",expected_result, mentionedUsers);
+    	// Test case with usernames with different cases. 
+    	tweet2_with_mentioned_user =  new Tweet(2, "bbitdiddle", "rivest @alySSA talk in 30 minutes #hype", d2);
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1_with_mentioned_user,tweet2_with_mentioned_user));
+    	expected_result = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    	expected_result.add("@alySSA"); 
+    	assertEquals("expected set",expected_result, mentionedUsers);
+    	// Test case with usernames with different cases. 
+    	Tweet tweet_with_confusing_string=  new Tweet(1, "bbitdiddle", "rivest jeffrey@gmail.com talk in 30 minutes #hype", d2);
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_with_confusing_string));
+    	assertTrue("expected empty set", mentionedUsers.isEmpty());
+    	// Test case with text start and end with username.   
+    	Tweet tweet_with_username_as_text=  new Tweet(1, "bbitdiddle", "@happy", d2);
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_with_username_as_text));
+    	expected_result = new TreeSet<>();
+    	expected_result.add("@happy"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
     }
 

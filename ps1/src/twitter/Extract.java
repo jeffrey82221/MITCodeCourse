@@ -5,12 +5,15 @@ package twitter;
 
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.time.Instant;
 import java.util.Collections; 
 import java.util.Comparator;
 import java.time.Duration;
+import java.lang.Character;
+import java.lang.StringBuilder;
 /**
  * Extract consists of methods that extract information from a list of tweets.
  * 
@@ -29,19 +32,50 @@ public class Extract {
      *         every tweet in the list.
      */
     public static Timespan getTimespan(List<Tweet> tweets) {
-    	Instant smallest_timestamp = tweets.get(0).getTimestamp(); 
-		Instant largest_timestamp = tweets.get(0).getTimestamp(); 
+    	Instant smallestTimestamp = tweets.get(0).getTimestamp(); 
+		Instant largestTimestamp = tweets.get(0).getTimestamp(); 
 		for(Tweet tweet: tweets) {
-			if(tweet.getTimestamp().isBefore(smallest_timestamp)) {
-				smallest_timestamp = tweet.getTimestamp();
+			if(tweet.getTimestamp().isBefore(smallestTimestamp)) {
+				smallestTimestamp = tweet.getTimestamp();
 			}
-			if(tweet.getTimestamp().isAfter(largest_timestamp)) {
-				largest_timestamp = tweet.getTimestamp(); 
+			if(tweet.getTimestamp().isAfter(largestTimestamp)) {
+				largestTimestamp = tweet.getTimestamp(); 
 			}
 		}
-		return new Timespan(smallest_timestamp, largest_timestamp); 
+		return new Timespan(smallestTimestamp, largestTimestamp); 
     }
-
+    /**
+     * Check if a char follows the rule of valid chars: 
+     *  (all characters in author are drawn from {A..Z, a..z, 0..9, _, -})
+     */
+    private static boolean isUserNameValid(char ch) {
+    	return Character.isLetter(ch) || Character.isDigit(ch) || ch == '_' || ch == '-';
+    }
+    /**
+     * Identify MentionedUsers for a tweet.text
+     */
+    private static Set<String> getMentionedUsersFromText(String text) {
+    	Set<String> usernameSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+    	int i = 0;
+    	while(i < text.length()){
+    	    if(text.charAt(i) == '@'){
+    	    	if(i>0 && isUserNameValid(text.charAt(i-1))){ // not a beginning of username
+    	    		i++;
+    	    		continue; // continue to find the beginning 
+    	    	}
+    	    	StringBuilder username = new StringBuilder(""); 
+    	    	username.append(text.charAt(i));//add @ into name 
+    	    	i++;
+    	    	while(i<text.length()&&isUserNameValid(text.charAt(i))) {
+    	    		username.append(text.charAt(i));
+    	    		i++;
+    	    	}
+    	    	usernameSet.add(username.toString());
+    	    }
+    	    i++;
+    	}
+    	return usernameSet;
+    }
     /**
      * Get usernames mentioned in a list of tweets.
      * 
@@ -58,7 +92,13 @@ public class Extract {
      *         include a username at most once.
      */
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
-        throw new RuntimeException("not implemented");
+    	//throw new RuntimeException("not implemented");
+    	Set<String> usernameSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);// Merging of usernames should consider case-insensitiveness.
+    	for(Tweet tweet:tweets) {
+    		//System.out.println(tweet.getText());
+    		usernameSet.addAll(getMentionedUsersFromText(tweet.getText()));
+    	}
+    	return usernameSet;
     }
 
 }
