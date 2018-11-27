@@ -89,6 +89,7 @@ public class ExtractTest {
      * 4) Multiple usernames with different case type (upper or lower), or not.  
      * 5) The @ is preceded with a valid username character, e.g.,"jeffrey@gmail.com", or not.
      * 6) Test case with text start and end with username.
+     * 7) Username preceding with different kind of charater, (1) A-Z, (2) a-z, (3) 1-9, (4) - , (5) _
      */
     @Test 
     public void testGetMentionedUsers() {
@@ -136,6 +137,27 @@ public class ExtractTest {
     	// Test case with text start and end with username.   
     	Tweet tweet_with_username_as_text=  new Tweet(1, "bbitdiddle", "@happy", d2);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_with_username_as_text));
+    	expected_result = new TreeSet<>();
+    	expected_result.add("@happy"); 
+    	assertEquals("expected set",expected_result, mentionedUsers);
+    	// Test case with different kind of preceding charater: 
+    	Tweet tweet_with_invalid_preceding_char=  new Tweet(1, "bbitdiddle", "1@happy", d2);
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_with_invalid_preceding_char));
+    	assertTrue("expected empty set", mentionedUsers.isEmpty());
+    	tweet_with_invalid_preceding_char=  new Tweet(1, "bbitdiddle", "_@happy", d2);
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_with_invalid_preceding_char));
+    	assertTrue("expected empty set", mentionedUsers.isEmpty());
+    	tweet_with_invalid_preceding_char=  new Tweet(1, "bbitdiddle", "-@happy", d2);
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_with_invalid_preceding_char));
+    	assertTrue("expected empty set", mentionedUsers.isEmpty());
+    	tweet_with_invalid_preceding_char=  new Tweet(1, "bbitdiddle", "j@happy", d2);
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_with_invalid_preceding_char));
+    	assertTrue("expected empty set", mentionedUsers.isEmpty());
+    	tweet_with_invalid_preceding_char=  new Tweet(1, "bbitdiddle", "J@happy", d2);
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_with_invalid_preceding_char));
+    	assertTrue("expected empty set", mentionedUsers.isEmpty());
+    	Tweet tweet_without_invalid_preceding_char=  new Tweet(1, "bbitdiddle", ".@happy", d2);
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_without_invalid_preceding_char));
     	expected_result = new TreeSet<>();
     	expected_result.add("@happy"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
