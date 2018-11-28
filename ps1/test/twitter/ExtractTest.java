@@ -102,8 +102,10 @@ public class ExtractTest {
     	/*
     	 * 1-1) total mentioned user = the sum of mentioned users numbers of each tweet
     	 */
+    	Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList());
+    	assertTrue("expected empty set", mentionedUsers.isEmpty());
     	// 2-1): tweet.text with 0 mentioned users.   3-1):  tweets.length() = 1.
-    	Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
+    	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
     	assertTrue("expected empty set", mentionedUsers.isEmpty());
     	// 2-1): tweet.text with 0 mentioned users.   3-2):  tweets.length() > 1. 
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1,tweet2));
