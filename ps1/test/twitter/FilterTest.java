@@ -52,7 +52,7 @@ public class FilterTest {
         assertEquals("expected singleton list", 0, writtenBy.size());
         // A = 2; B = 1; 
         writtenBy = Filter.writtenBy(Arrays.asList(tweet1,tweet2), "alyssa"); 
-        assertEquals("expected singleton list", 0, writtenBy.size());
+        assertEquals("expected singleton list", 1, writtenBy.size());
         assertTrue("expected list to contain tweet", writtenBy.contains(tweet1));
         // A = 2; B = 2; 
         writtenBy = Filter.writtenBy(Arrays.asList(tweet1,tweet3), "alyssa"); 
@@ -67,10 +67,10 @@ public class FilterTest {
         assertTrue("expected list to contain tweet", writtenBy.contains(tweet1)); 
         // A = 2; B = 0; 
         writtenBy = Filter.writtenBy(Arrays.asList(tweet1,tweet2), "CAT"); 
-        assertEquals("expected singleton list", 0, writtenBy.size());
+        assertEquals("expected empty list", 0, writtenBy.size());
         // A = 2; B = 1; 
         writtenBy = Filter.writtenBy(Arrays.asList(tweet1,tweet2), "ALYSSA"); 
-        assertEquals("expected singleton list", 0, writtenBy.size());
+        assertEquals("expected singleton list", 1, writtenBy.size());
         assertTrue("expected list to contain tweet", writtenBy.contains(tweet1));
         // A = 2; B = 2; 
         writtenBy = Filter.writtenBy(Arrays.asList(tweet1,tweet3), "ALYSSA"); 
