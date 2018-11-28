@@ -3,6 +3,7 @@
  */
 package twitter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +28,13 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
-        throw new RuntimeException("not implemented");
+    	List<Tweet> filteredTweets = new ArrayList<Tweet>();
+    	for(Tweet tweet: tweets) {
+    		if(tweet.getAuthor().equalsIgnoreCase(username)) {
+    			filteredTweets.add(new Tweet(tweet.getId(),tweet.getAuthor(),tweet.getText(),tweet.getTimestamp()));
+    		}
+    	}
+    	return filteredTweets;
     }
 
     /**
@@ -41,9 +48,19 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
-        throw new RuntimeException("not implemented");
+    	List<Tweet> filteredTweets = new ArrayList<Tweet>();
+    	for(Tweet tweet: tweets) {
+    		if(tweet.getTimestamp().isAfter(timespan.getStart()) &&
+    				tweet.getTimestamp().isBefore(timespan.getEnd())
+    				) {
+    			filteredTweets.add(new Tweet(tweet.getId(),tweet.getAuthor(),tweet.getText(),tweet.getTimestamp()));
+    		}
+    	}
+    	return filteredTweets;
+        
     }
-
+    
+    
     /**
      * Find tweets that contain certain words.
      * 
@@ -60,7 +77,34 @@ public class Filter {
      *         same order as in the input list.
      */
     public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
-        throw new RuntimeException("not implemented");
+    	List<Tweet> filteredTweets = new ArrayList<Tweet>();
+    	for(Tweet tweet: tweets) {
+    		if(isInText(tweet.getText(),words)) {
+    			filteredTweets.add(new Tweet(tweet.getId(),tweet.getAuthor(),tweet.getText(),tweet.getTimestamp()));
+    		}
+    	}
+    	return filteredTweets;
+        // Check if any word in the words list is in the tweets, if true added it to the result 
+        
     }
+    private static boolean isInText(String text, List<String> words) {
+    	String[] terms = text.split("\\s+"); 
+    	for(String word:words) {
+    		if(isInTerms(terms, word)) {
+        		return true;
+        	}
+    	}
+    	return false;
+    	
+    }
+    private static boolean isInTerms(String [] terms, String word) {
+    	for(String term : terms) { 
+    		if(term.equalsIgnoreCase(word)) {
+    			return true;
+    		}
+    	}
+    	return false; 
+    }
+    
 
 }
