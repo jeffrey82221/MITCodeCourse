@@ -114,13 +114,13 @@ public class ExtractTest {
     	Tweet tweet1_with_mentioned_user =  new Tweet(1, "alyssa", "is it reasonable @alyssa to talk about rivest so much?", d1);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1_with_mentioned_user));
     	Set<String> expected_result = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-    	expected_result.add("@alyssa"); 
+    	expected_result.add("alyssa"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
     	// 2-2): tweet.text with >0 mentioned users.  3-2):  tweets.length() > 1
     	Tweet tweet2_with_mentioned_user =  new Tweet(2, "bbitdiddle", "rivest @bbitdiddle talk in 30 minutes #hype", d2);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1_with_mentioned_user,tweet2_with_mentioned_user));
     	expected_result = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-    	expected_result.add("@alyssa");expected_result.add("@bbitdiddle"); 
+    	expected_result.add("alyssa");expected_result.add("bbitdiddle"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
     	/*
     	 * 1-2) total mentioned user < the sum of mentioned users numbers of each tweet
@@ -130,13 +130,13 @@ public class ExtractTest {
     	tweet2_with_mentioned_user =  new Tweet(2, "bbitdiddle", "rivest @alyssa talk in 30 minutes #hype", d2);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1_with_mentioned_user,tweet2_with_mentioned_user));
     	expected_result = new TreeSet<>();
-    	expected_result.add("@alyssa"); 
+    	expected_result.add("alyssa"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
     	// Test case with usernames with different cases. 
     	tweet2_with_mentioned_user =  new Tweet(2, "bbitdiddle", "rivest @alySSA talk in 30 minutes #hype", d2);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1_with_mentioned_user,tweet2_with_mentioned_user));
     	expected_result = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-    	expected_result.add("@alySSA"); 
+    	expected_result.add("alySSA"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
     	// Test case with usernames with different cases. 
     	Tweet tweet_with_confusing_string=  new Tweet(1, "bbitdiddle", "rivest jeffrey@gmail.com talk in 30 minutes #hype", d2);
@@ -146,7 +146,7 @@ public class ExtractTest {
     	Tweet tweet_with_username_as_text=  new Tweet(1, "bbitdiddle", "@happy", d2);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_with_username_as_text));
     	expected_result = new TreeSet<>();
-    	expected_result.add("@happy"); 
+    	expected_result.add("happy"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
     	// Test case with different kind of preceding charater: 
     	Tweet tweet_with_invalid_preceding_char=  new Tweet(1, "bbitdiddle", "1@happy", d2);
@@ -167,7 +167,7 @@ public class ExtractTest {
     	Tweet tweet_without_invalid_preceding_char=  new Tweet(1, "bbitdiddle", ".@happy", d2);
     	mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet_without_invalid_preceding_char));
     	expected_result = new TreeSet<>();
-    	expected_result.add("@happy"); 
+    	expected_result.add("happy"); 
     	assertEquals("expected set",expected_result, mentionedUsers);
     }
 

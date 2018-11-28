@@ -304,6 +304,22 @@ public class SocialNetworkTest {
         assertTrue("contain", influencers.contains("bobby"));
         assertEquals("size of list", 2, influencers.size());
         
+        /*
+    	 * Node = 3; (Suppose they are A, B, and C);       
+    	 */  
+        
+        // B and C follow A. tweets.length() = 2. 
+        tweet2 = new Tweet(2, "bobby", "I am bobby, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
+        tweet3 = new Tweet(3, "cat", "I am cat, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
+        followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet2,tweet3));
+        influencers = SocialNetwork.influencers(followsGraph);
+        assertTrue("contain", influencers.contains("alyssa"));
+        assertTrue("contain", influencers.contains("bobby"));
+        assertTrue("contain", influencers.contains("cat"));
+        assertEquals("bobby is a smaller influencer than alyssa", "alyssa", influencers.get(0));
+        assertEquals("size of list", 3, influencers.size()); 
+        
+        
         
     }
 

@@ -64,7 +64,7 @@ public class Extract {
     	    		continue; // continue to find the beginning 
     	    	}
     	    	StringBuilder username = new StringBuilder(""); 
-    	    	username.append(text.charAt(i));//add @ into name 
+    	    	//username.append(text.charAt(i));//add @ into name 
     	    	i++;
     	    	while(i<text.length()&&isUserNameValid(text.charAt(i))) {
     	    		username.append(text.charAt(i));
