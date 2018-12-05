@@ -126,13 +126,13 @@ public class SocialNetworkTest {
         assertEquals("cat followers zero user", 0, followsGraph.get("cat").size());
         assertTrue("with at most two keys", followsGraph.keySet().size()==2);
         // A follows B, and C not followed by any another.  tweets.length() = 3
-        tweet1 = new Tweet(1, "alyssa", "This is me. @bobby.", Instant.parse("2016-02-17T10:00:00Z"));
+        tweet1 = new Tweet(1, "alyssa", "This is me. @bobby. ", Instant.parse("2016-02-17T10:00:00Z"));
         tweet2 = new Tweet(2, "bobby", "I am bobby.", Instant.parse("2016-02-17T10:00:00Z"));
         tweet3 = new Tweet(3, "cat", "I am cat.", Instant.parse("2016-02-17T10:00:00Z"));
         followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1,tweet2,tweet3));
         assertTrue("bobby is followed by alyssa.", followsGraph.get("alyssa").contains("bobby"));
         assertEquals("cat followers zero user", 0, followsGraph.get("cat").size());
-        assertTrue("with at most two keys", followsGraph.keySet().size()==2);
+        assertTrue("with at most two keys", followsGraph.keySet().size()<=3);
         // A follows B and C. tweets.length() = 1. 
         tweet1 = new Tweet(1, "alyssa", "This is me, and @bobby and @cat are my friends.", Instant.parse("2016-02-17T10:00:00Z"));
         followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
@@ -147,7 +147,7 @@ public class SocialNetworkTest {
         assertTrue("bobby is followed by alyssa.", followsGraph.get("alyssa").contains("bobby"));
         assertTrue("cat is followed by alyssa.", followsGraph.get("alyssa").contains("cat"));
         assertEquals("alyssa followers two user", 2, followsGraph.get("alyssa").size());
-        assertTrue("with at most two keys", followsGraph.keySet().size()==1);
+        assertTrue("with at most two keys", followsGraph.keySet().size()<=2);
         // A follows B and C. tweets.length() = 3. 
         tweet1 = new Tweet(1, "alyssa", "This is me, and @bobby and @cat are my friends.", Instant.parse("2016-02-17T10:00:00Z"));
         tweet2 = new Tweet(2, "bobby", "I am bobby.", Instant.parse("2016-02-17T10:00:00Z"));
@@ -156,7 +156,7 @@ public class SocialNetworkTest {
         assertTrue("bobby is followed by alyssa.", followsGraph.get("alyssa").contains("bobby"));
         assertTrue("cat is followed by alyssa.", followsGraph.get("alyssa").contains("cat"));
         assertEquals("alyssa followers two user", 2, followsGraph.get("alyssa").size());
-        assertTrue("with at most one keys", followsGraph.keySet().size()==1);
+        assertTrue("with at most one keys", followsGraph.keySet().size()<=3);
         // B and C follow A. tweets.length() = 2. 
         tweet2 = new Tweet(2, "bobby", "I am bobby, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
         tweet3 = new Tweet(3, "cat", "I am cat, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
@@ -165,7 +165,7 @@ public class SocialNetworkTest {
         assertTrue("cat follows alyssa.", followsGraph.get("cat").contains("alyssa"));
         assertEquals("bobby followers one user", 1, followsGraph.get("bobby").size());
         assertEquals("cat followers one user", 1, followsGraph.get("cat").size());
-        assertTrue("with at most two keys", followsGraph.keySet().size()==2); 
+        assertTrue("with at most two keys", followsGraph.keySet().size()<=2); 
         // B and C follow A. tweets.length() = 3. 
         tweet1 = new Tweet(1, "alyssa", "This is me.", Instant.parse("2016-02-17T10:00:00Z"));
         tweet2 = new Tweet(2, "bobby", "I am bobby, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
@@ -175,7 +175,7 @@ public class SocialNetworkTest {
         assertTrue("cat follows alyssa.", followsGraph.get("cat").contains("alyssa"));
         assertEquals("bobby followers one user", 1, followsGraph.get("bobby").size());
         assertEquals("cat followers one user", 1, followsGraph.get("cat").size());
-        assertTrue("with at most two keys", followsGraph.keySet().size()==2);
+        assertTrue("with at most two keys", followsGraph.keySet().size()<=3);
         // A follows B, B follows C. tweets.length() = 2. 
         tweet1 = new Tweet(1, "alyssa", "This is me. @bobby. ", Instant.parse("2016-02-17T10:00:00Z"));
         tweet2 = new Tweet(2, "bobby", "I am bobby, and @cat is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
@@ -184,7 +184,7 @@ public class SocialNetworkTest {
         assertTrue("bobby follows cat.", followsGraph.get("bobby").contains("cat"));
         assertEquals("alyssa followers one user", 1, followsGraph.get("alyssa").size());
         assertEquals("bobby followers one user", 1, followsGraph.get("bobby").size());
-        assertTrue("with at most two keys", followsGraph.keySet().size()==2);
+        assertTrue("with at most two keys", followsGraph.keySet().size()<=2);
         // A follows B, B follows C. tweets.length() = 3. 
         tweet1 = new Tweet(1, "alyssa", "This is me. @bobby. ", Instant.parse("2016-02-17T10:00:00Z"));
         tweet2 = new Tweet(2, "bobby", "I am bobby, and @cat is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
@@ -194,7 +194,7 @@ public class SocialNetworkTest {
         assertTrue("bobby follows cat.", followsGraph.get("bobby").contains("cat"));
         assertEquals("alyssa followers one user", 1, followsGraph.get("alyssa").size());
         assertEquals("bobby followers one user", 1, followsGraph.get("bobby").size());
-        assertTrue("with at most two keys", followsGraph.keySet().size()==2);
+        assertTrue("with at most two keys", followsGraph.keySet().size()<=3);
         
     }
     /**
@@ -303,11 +303,9 @@ public class SocialNetworkTest {
         assertTrue("contain", influencers.contains("alyssa"));
         assertTrue("contain", influencers.contains("bobby"));
         assertEquals("size of list", 2, influencers.size());
-        
         /*
     	 * Node = 3; (Suppose they are A, B, and C);       
     	 */  
-        
         // B and C follow A. tweets.length() = 2. 
         tweet2 = new Tweet(2, "bobby", "I am bobby, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
         tweet3 = new Tweet(3, "cat", "I am cat, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
@@ -318,9 +316,6 @@ public class SocialNetworkTest {
         assertTrue("contain", influencers.contains("cat"));
         assertEquals("bobby is a smaller influencer than alyssa", "alyssa", influencers.get(0));
         assertEquals("size of list", 3, influencers.size()); 
-        
-        
-        
     }
 
     /*
