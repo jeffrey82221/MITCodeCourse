@@ -24,8 +24,8 @@ import java.util.Set;
  * doesn't follow anybody, then map[A] may be the empty set, or A may not even exist
  * as a key in the map; this is true even if A is followed by other people in the network.
  * Twitter usernames are not case sensitive, so "ernie" is the same as "ERNie".
- * A username should appear at most once as a key in the map or in any given
- * map[A] set.
+ * A username should appear (at most once as a key in the map) or (in any given
+ * map[A] set).
  * 
  * DO NOT change the method signatures and specifications of these methods, but
  * you should implement their method bodies, and you may add new public or
