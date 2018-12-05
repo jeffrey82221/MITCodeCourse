@@ -38,7 +38,7 @@ public class Extract {
 			if(tweet.getTimestamp().isBefore(smallestTimestamp)) {
 				smallestTimestamp = tweet.getTimestamp();
 			}
-			if(tweet.getTimestamp().isAfter(largestTimestamp)) {
+			else if(tweet.getTimestamp().isAfter(largestTimestamp)) { // else if instead of if
 				largestTimestamp = tweet.getTimestamp(); 
 			}
 		}
@@ -93,7 +93,7 @@ public class Extract {
      */
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
     	//throw new RuntimeException("not implemented");
-    	Set<String> usernameSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);// Merging of usernames should consider case-insensitiveness.
+    	final Set<String> usernameSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);// Merging of usernames should consider case-insensitiveness.
     	for(Tweet tweet:tweets) {
     		//System.out.println(tweet.getText());
     		usernameSet.addAll(getMentionedUsersFromText(tweet.getText()));
