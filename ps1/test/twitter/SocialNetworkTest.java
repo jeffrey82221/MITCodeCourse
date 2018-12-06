@@ -42,18 +42,21 @@ public class SocialNetworkTest {
      * 4) A username should appear at most once as a key in the map or in any given map[A] set. (??? what if A->B and B->A.).  
      */
     @Test
-    public void testGuessFollowsGraph() {
+    public void testGuessFollowsGraphWithoutNode() {
     	/*
     	 * #Node = 0 , tweets.length() = 0
     	 */
         Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(new ArrayList<>());
         assertTrue("expected empty graph", followsGraph.isEmpty());
+    }
+    @Test
+    public void testGuessFollowsGraphWithOneNode() {
         /*
     	 * #Node = 1,  
     	 */        
         // tweets.length() = 1 
         Tweet tweet1 = new Tweet(1, "alyssa", "This is me. ", Instant.parse("2016-02-17T10:00:00Z"));
-        followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
+        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
         assertTrue("expected graph with only one node", followsGraph.keySet().size()==1);
         assertTrue("expected graph with only one node, alyssa.", followsGraph.containsKey("alyssa"));
         assertEquals("no followers", 0, followsGraph.get(tweet1.getAuthor()).size());
@@ -63,17 +66,20 @@ public class SocialNetworkTest {
         assertTrue("expected graph with only one node", followsGraph.keySet().size()==1);
         assertTrue("expected graph with only one node, alyssa.", followsGraph.containsKey("alyssa"));
         assertEquals("no followers", 0, followsGraph.get(tweet1.getAuthor()).size());
+    }
+    @Test
+    public void testGuessFollowsGraphWithTwoNodes() {
         /*
     	 * Node = 2; (Suppose they are A and B);       
     	 */  
         // A follows B. tweets.length() = 1 ,  
-        tweet1 = new Tweet(1, "alyssa", "This is me, and my friend, @bobby.", Instant.parse("2016-02-17T10:00:00Z"));
-        followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1)); 
+    	Tweet tweet1 = new Tweet(1, "alyssa", "This is me, and my friend, @bobby.", Instant.parse("2016-02-17T10:00:00Z"));
+    	Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1)); 
         assertTrue("bobby is followed by alyssa.", followsGraph.get("alyssa").contains("bobby"));
         assertEquals("alyssa followers one user", 1, followsGraph.get("alyssa").size());
         // A follows B. tweets.length() = 2 ,
         tweet1 = new Tweet(1, "alyssa", "This is me, and my friend, @bobby.", Instant.parse("2016-02-17T10:00:00Z"));
-        tweet2 = new Tweet(2, "bobby", "I am bobby.", Instant.parse("2016-02-17T10:00:00Z"));
+        Tweet tweet2 = new Tweet(2, "bobby", "I am bobby.", Instant.parse("2016-02-17T10:00:00Z"));
         followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1,tweet2)); 
         assertTrue("bobby is followed by alyssa.", followsGraph.get("alyssa").contains("bobby"));
         assertEquals("alyssa followers one user", 1, followsGraph.get("alyssa").size());
@@ -107,14 +113,17 @@ public class SocialNetworkTest {
         assertTrue("bobby is followed by alyssa.", followsGraph.get("alyssa").contains("bobby"));
         assertTrue("alyssa is followed by bobby .", followsGraph.get("bobby").contains("alyssa"));
         assertTrue("at most two keys", followsGraph.keySet().size()==2);
+    }
+    @Test
+    public void testGuessFollowsGraphWithThreeNodes() {
         /*
     	 * Node = 3; (Suppose they are A, B, and C);       
     	 */  
         // A, B, C not followed by any another. 
-        tweet1 = new Tweet(1, "alyssa", "This is me.", Instant.parse("2016-02-17T10:00:00Z"));
-        tweet2 = new Tweet(2, "bobby", "I am bobby.", Instant.parse("2016-02-17T10:00:00Z"));
-        tweet3 = new Tweet(3, "cat", "I am cat.", Instant.parse("2016-02-17T10:00:00Z"));
-        followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1,tweet2,tweet3));
+        Tweet tweet1 = new Tweet(1, "alyssa", "This is me.", Instant.parse("2016-02-17T10:00:00Z"));
+        Tweet tweet2 = new Tweet(2, "bobby", "I am bobby.", Instant.parse("2016-02-17T10:00:00Z"));
+        Tweet tweet3 = new Tweet(3, "cat", "I am cat.", Instant.parse("2016-02-17T10:00:00Z"));
+        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1,tweet2,tweet3));
         assertEquals("alyssa followers zero user", 0, followsGraph.get("alyssa").size());
         assertEquals("bobby followers zero user", 0, followsGraph.get("bobby").size());
         assertEquals("cat followers zero user", 0, followsGraph.get("cat").size());
@@ -206,20 +215,23 @@ public class SocialNetworkTest {
      *     1) "A being followed by B" 2) "A following B", or 3) "no relationshiop".   
      */
     @Test
-    public void testInfluencers() {
+    public void testInfluencersWithEmptyGraph() {
     	/*
     	 * #Node = 0 , tweets.length() = 0
     	 */
         Map<String, Set<String>> followsGraph = new HashMap<>();
         List<String> influencers = SocialNetwork.influencers(followsGraph);
         assertTrue("expected empty list", influencers.isEmpty());
+    }
+    @Test
+    public void testInfluencersWithOneNodeGraph() {
         /*
     	 * #Node = 1,  
     	 */        
         // tweets.length() = 1 
         Tweet tweet1 = new Tweet(1, "alyssa", "This is me. ", Instant.parse("2016-02-17T10:00:00Z"));
-        followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
-        influencers = SocialNetwork.influencers(followsGraph);
+        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
+        List<String> influencers = SocialNetwork.influencers(followsGraph);
         assertTrue("one node only", influencers.contains("alyssa"));
         assertEquals("size of list", 1, influencers.size());
         // tweets.length() = 2 
@@ -228,13 +240,16 @@ public class SocialNetworkTest {
         influencers = SocialNetwork.influencers(followsGraph);
         assertTrue("one node only", influencers.contains("alyssa"));
         assertEquals("size of list", 1, influencers.size());
+    }
+    @Test
+    public void testInfluencersWithTwoNodeGraph() {
         /*
     	 * Node = 2; (Suppose they are A and B);       
     	 */  
         // A follows B. tweets.length() = 1 ,  
-        tweet1 = new Tweet(1, "alyssa", "This is me, and my friend, @bobby.", Instant.parse("2016-02-17T10:00:00Z"));
-        followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
-        influencers = SocialNetwork.influencers(followsGraph);
+        Tweet tweet1 = new Tweet(1, "alyssa", "This is me, and my friend, @bobby.", Instant.parse("2016-02-17T10:00:00Z"));
+        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
+        List<String> influencers = SocialNetwork.influencers(followsGraph);
         assertTrue("contain", influencers.contains("alyssa"));
         assertTrue("contain", influencers.contains("bobby"));
         assertEquals("bobby is a larger influencer than alyssa", "bobby", influencers.get(0));
@@ -242,7 +257,7 @@ public class SocialNetworkTest {
         assertEquals("size of list", 2, influencers.size());
         // A follows B. tweets.length() = 2 ,
         tweet1 = new Tweet(1, "alyssa", "This is me, and my friend, @bobby.", Instant.parse("2016-02-17T10:00:00Z"));
-        tweet2 = new Tweet(2, "bobby", "I am bobby.", Instant.parse("2016-02-17T10:00:00Z"));
+        Tweet tweet2 = new Tweet(2, "bobby", "I am bobby.", Instant.parse("2016-02-17T10:00:00Z"));
         followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1,tweet2));
         influencers = SocialNetwork.influencers(followsGraph);
         assertTrue("contain", influencers.contains("alyssa"));
@@ -303,14 +318,17 @@ public class SocialNetworkTest {
         assertTrue("contain", influencers.contains("alyssa"));
         assertTrue("contain", influencers.contains("bobby"));
         assertEquals("size of list", 2, influencers.size());
+    }
+    @Test
+    public void testInfluencersWithASpecialThreeNodeGraph() {
         /*
     	 * Node = 3; (Suppose they are A, B, and C);       
     	 */  
-        // B and C follow A. tweets.length() = 2. 
-        tweet2 = new Tweet(2, "bobby", "I am bobby, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
-        tweet3 = new Tweet(3, "cat", "I am cat, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
-        followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet2,tweet3));
-        influencers = SocialNetwork.influencers(followsGraph);
+        // B and C follow A. tweets.length() = 2.
+        Tweet tweet2 = new Tweet(2, "bobby", "I am bobby, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
+        Tweet tweet3 = new Tweet(3, "cat", "I am cat, and @alyssa is my friend.", Instant.parse("2016-02-17T10:00:00Z"));
+        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet2,tweet3));
+        List<String> influencers = SocialNetwork.influencers(followsGraph);
         assertTrue("contain", influencers.contains("alyssa"));
         assertTrue("contain", influencers.contains("bobby"));
         assertTrue("contain", influencers.contains("cat"));

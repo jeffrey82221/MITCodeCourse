@@ -49,7 +49,7 @@ public class SocialNetwork {
      *         either authors or @-mentions in the list of tweets.
      */
     public static Map<String, Set<String>> guessFollowsGraph(List<Tweet> tweets) {
-    	Map<String, Set<String>>  followsGraph = new TreeMap<String, Set<String>>();
+    	final Map<String, Set<String>>  followsGraph = new TreeMap<String, Set<String>>();
     	Set<String> userSetOfTweet;
     	String authorName;
     	for(Tweet tweet: tweets) {
@@ -86,8 +86,8 @@ public class SocialNetwork {
      */
     public static List<String> influencers(Map<String, Set<String>> followsGraph) {
         //throw new RuntimeException("not implemented");
-    	List<String> influencerList = new ArrayList<String>();
-    	Map<String,Integer> influenceOfUser = new TreeMap<String,Integer>(); 
+    	final List<String> influencerList = new ArrayList<String>();
+    	final Map<String,Integer> influenceOfUser = new TreeMap<String,Integer>(); 
     	for(String user: followsGraph.keySet()) {
     		for(String followedUser: followsGraph.get(user)){
     			if(influenceOfUser.containsKey(followedUser)){
@@ -104,7 +104,7 @@ public class SocialNetwork {
     		}
     	}
     	// sort the Map by values: 
-    	Comparator<Map.Entry<String, Integer>> valueComparator = new Comparator<Map.Entry<String,Integer>>() {
+    	final Comparator<Map.Entry<String, Integer>> valueComparator = new Comparator<Map.Entry<String,Integer>>() {
             @Override
             public int compare(Entry<String, Integer> o1,
                     Entry<String, Integer> o2) {
@@ -112,7 +112,7 @@ public class SocialNetwork {
                 return o2.getValue()-o1.getValue();
             }
         };
-        List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String,Integer>>(influenceOfUser.entrySet());
+        final List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String,Integer>>(influenceOfUser.entrySet());
         Collections.sort(list,valueComparator);
         for (Map.Entry<String, Integer> entry : list) {
         	influencerList.add(entry.getKey());

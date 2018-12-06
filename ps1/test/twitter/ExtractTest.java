@@ -31,12 +31,6 @@ public class ExtractTest {
         assert false; // make sure assertions are enabled with VM argument: -ea
     }
     
-    @Test
-    public void testGetTimespanTwoTweets() {
-        Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2));
-        assertEquals("expected start", d1, timespan.getStart());
-        assertEquals("expected end", d2, timespan.getEnd());
-    }
     
     
     /* Testing strategy 
@@ -47,20 +41,26 @@ public class ExtractTest {
      *     or  permute the elements.  
      */
     @Test
-    public void testGetTimespan() {
+    public void testGetTimespanOneTweet() {
     	// tweets.length() == 1: 
     	Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1));
     	assertEquals("expected start", d1, timespan.getStart());
         assertEquals("expected end", d1, timespan.getEnd());
+    }
+    @Test
+    public void testGetTimespanTwoTweets() {
         // tweets.length() == 2: 
-        timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2));
+    	Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2));
         assertEquals("expected start", d1, timespan.getStart());
         assertEquals("expected end", d2, timespan.getEnd());
         timespan = Extract.getTimespan(Arrays.asList(tweet2, tweet1));
         assertEquals("expected start", d1, timespan.getStart());
         assertEquals("expected end", d2, timespan.getEnd());
+    }
+    @Test
+    public void testGetTimespanTreeTweets() {
         // tweets.length() == 3: 
-        timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2, tweet3));
+    	Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2, tweet3));
         assertEquals("expected start", d1, timespan.getStart());
         assertEquals("expected end", d3, timespan.getEnd());
         timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet3,tweet2));

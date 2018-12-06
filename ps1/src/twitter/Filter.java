@@ -28,7 +28,7 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
-    	List<Tweet> filteredTweets = new ArrayList<Tweet>();
+    	final List<Tweet> filteredTweets = new ArrayList<Tweet>();
     	for(Tweet tweet: tweets) {
     		if(tweet.getAuthor().equalsIgnoreCase(username)) {
     			filteredTweets.add(new Tweet(tweet.getId(),tweet.getAuthor(),tweet.getText(),tweet.getTimestamp()));
@@ -48,11 +48,13 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
-    	List<Tweet> filteredTweets = new ArrayList<Tweet>();
+    	final List<Tweet> filteredTweets = new ArrayList<Tweet>();
     	for(Tweet tweet: tweets) {
     		if(tweet.getTimestamp().isAfter(timespan.getStart()) &&
     				tweet.getTimestamp().isBefore(timespan.getEnd())
     				) {
+    			filteredTweets.add(new Tweet(tweet.getId(),tweet.getAuthor(),tweet.getText(),tweet.getTimestamp()));
+    		}else if(tweet.getTimestamp().equals(timespan.getStart()) || tweet.getTimestamp().equals(timespan.getEnd())) {
     			filteredTweets.add(new Tweet(tweet.getId(),tweet.getAuthor(),tweet.getText(),tweet.getTimestamp()));
     		}
     	}
@@ -77,7 +79,7 @@ public class Filter {
      *         same order as in the input list.
      */
     public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
-    	List<Tweet> filteredTweets = new ArrayList<Tweet>();
+    	final List<Tweet> filteredTweets = new ArrayList<Tweet>();
     	for(Tweet tweet: tweets) {
     		if(isInText(tweet.getText(),words)) {
     			filteredTweets.add(new Tweet(tweet.getId(),tweet.getAuthor(),tweet.getText(),tweet.getTimestamp()));
