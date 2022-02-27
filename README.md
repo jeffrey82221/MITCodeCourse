@@ -17,6 +17,21 @@ Each folder contains a problem set from the course, as shown below:
 
 -  Team based project: ABC Music Player(https://ocw.mit.edu/ans7870/6/6.005/s16/projects/abcplayer/) 
 
+# 討論細節 (Github連結在此)
+
+*時程：*
+
+* 每三週一次討論，完成一個Problem Set
+    * Fourth 完成6篇Reading
+    * 1-14天：î寫Problem Set Alpha Version
+    * 14天完成Problem Set Alpha Release(請壓縮成zip檔傳到Quip上)
+    * 15-18天：為隊友寫Code Review
+        * 兩人一組
+    * 18天完成Code Review(視訊討論)
+        * 視訊討論內容：
+            * Code Review：為什麼給這樣的建議？
+    * 21天完成Problem Set Beta Release
+
 
 ## Interesting coders can check the belowing list for Reading material: 
 
