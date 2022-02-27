@@ -119,9 +119,7 @@ git commit -m "problem set 1 initialized"
 git push --set-upstream origin ps1
 `
 
-# 討論細節 (Github連結在此)
-
-*時程：*
+# *時程：*
 
 * 每三週一次討論，完成一個Problem Set
     * Fourth 完成6篇Reading
